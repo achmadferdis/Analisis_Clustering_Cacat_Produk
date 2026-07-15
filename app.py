@@ -16,7 +16,7 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("📊 Analisis Clustering Cacat Produk Industri Manufaktur")
+st.title(" Analisis Clustering Cacat Produk Industri Manufaktur")
 st.info("""
 ### IDENTITAS MAHASISWA
 
@@ -102,6 +102,11 @@ ax.set_ylabel("WCSS")
 ax.set_title("Metode Elbow")
 
 st.pyplot(fig)
+st.info("""
+ **Interpretasi Elbow Method**
+
+Metode Elbow digunakan untuk menentukan jumlah cluster yang optimal. Titik siku (elbow) pada grafik menunjukkan jumlah cluster yang memberikan keseimbangan antara kualitas pengelompokan dan kompleksitas model. Nilai tersebut dapat dijadikan acuan dalam memilih jumlah cluster sebelum dilakukan proses K-Means Clustering.
+""")
 
 st.divider()
 
@@ -154,64 +159,109 @@ st.header("📝 Interpretasi Hasil")
 
 jumlah_cluster = hasil["Cluster"].value_counts().sort_index()
 
-st.write(f"""
-Berdasarkan hasil K-Means Clustering dengan jumlah cluster sebanyak **{k}**,
-data cacat produk berhasil dikelompokkan menjadi **{k} kelompok** yang memiliki
-karakteristik berbeda.
+# ===========================
+# RINGKASAN HASIL CLUSTERING
+# ===========================
 
-Jumlah data pada setiap cluster adalah sebagai berikut:
+st.write(f"""
+Berdasarkan hasil **K-Means Clustering** dengan jumlah cluster sebanyak **{k}**,
+data cacat produk berhasil dikelompokkan menjadi **{k} kelompok** berdasarkan
+kemiripan karakteristik.
 """)
+
+st.write("### Jumlah Data pada Setiap Cluster")
 
 for cluster_id, jumlah in jumlah_cluster.items():
-    st.write(f"✅ Cluster {cluster_id + 1} : **{jumlah} data**")
+    st.write(f"✅ **Cluster {cluster_id + 1} : {jumlah} data**")
 
-st.write("")
+st.divider()
 
-if k == 2:
-    st.info("""
-Interpretasi:
+# ===========================
+# MENENTUKAN PENJELASAN SESUAI JUMLAH CLUSTER
+# ===========================
 
-• Data terbagi menjadi 2 kelompok besar.
+if k <= 3:
 
-• Pembagian ini cocok untuk membedakan karakteristik cacat produk secara umum,
-misalnya kelompok cacat rendah dan kelompok cacat tinggi.
+    tingkat = "lebih sederhana sehingga cocok untuk melihat gambaran umum pola cacat produk."
 
-• Cocok digunakan apabila perusahaan hanya ingin mengetahui dua kategori utama.
-""")
+    interpretasi = """
+Jumlah cluster yang sedikit menghasilkan pengelompokan yang lebih umum.
+Setiap cluster masih mencakup cukup banyak data sehingga perusahaan dapat
+lebih mudah memahami pola cacat utama sebelum melakukan analisis yang lebih rinci.
+"""
 
-elif k == 3:
-    st.info("""
-Interpretasi:
+    bisnis = [
+        "Menentukan prioritas penanganan cacat utama.",
+        "Memudahkan identifikasi kategori cacat terbesar.",
+        "Sebagai analisis awal untuk evaluasi proses produksi.",
+        "Membantu penyusunan strategi peningkatan kualitas secara umum."
+    ]
 
-• Data terbagi menjadi 3 kelompok.
+elif k <= 6:
 
-• Pengelompokan menjadi tiga cluster biasanya menghasilkan pemisahan yang lebih
-jelas dibanding dua cluster.
+    tingkat = "lebih rinci sehingga setiap cluster mulai menunjukkan karakteristik cacat yang lebih spesifik."
 
-• Misalnya dapat merepresentasikan kelompok cacat rendah, sedang, dan tinggi.
-""")
+    interpretasi = """
+Dengan jumlah cluster menengah, karakteristik setiap kelompok mulai terlihat
+lebih jelas sehingga perusahaan dapat mengetahui variasi pola cacat yang
+terjadi pada proses produksi.
+"""
 
-elif k <= 5:
-    st.info(f"""
-Interpretasi:
-
-• Data berhasil dibagi menjadi {k} kelompok.
-
-• Jumlah cluster yang lebih banyak membuat karakteristik setiap kelompok menjadi
-lebih spesifik.
-
-• Hal ini membantu perusahaan menentukan prioritas penanganan berdasarkan jenis
-cacat yang lebih rinci.
-""")
+    bisnis = [
+        "Mengidentifikasi karakteristik setiap kelompok cacat.",
+        "Menentukan prioritas evaluasi pada proses produksi tertentu.",
+        "Menganalisis penyebab cacat dengan lebih detail.",
+        "Meningkatkan efektivitas pengendalian kualitas produk."
+    ]
 
 else:
-    st.info(f"""
-Interpretasi:
 
-• Data berhasil dibagi menjadi {k} cluster.
+    tingkat = "sangat rinci sehingga variasi karakteristik cacat dapat dianalisis lebih mendalam."
 
-• Semakin banyak cluster menghasilkan segmentasi yang semakin detail.
+    interpretasi = """
+Jumlah cluster yang lebih banyak menghasilkan segmentasi yang semakin detail.
+Namun interpretasinya juga menjadi lebih kompleks sehingga perlu disesuaikan
+dengan kebutuhan perusahaan.
+"""
 
-• Namun jumlah cluster yang terlalu banyak juga dapat membuat interpretasi menjadi
-lebih kompleks sehingga perlu dipilih sesuai kebutuhan analisis.
+    bisnis = [
+        "Menemukan pola cacat yang sangat spesifik.",
+        "Membantu evaluasi mesin, operator, metode kerja, dan bahan baku.",
+        "Menyusun strategi pengendalian kualitas berdasarkan setiap cluster.",
+        "Mendukung pengambilan keputusan yang lebih akurat."
+    ]
+
+# ===========================
+# PENJELASAN MODEL
+# ===========================
+
+st.subheader(" Penjelasan Model")
+
+st.write(f"""
+Metode **K-Means Clustering** merupakan algoritma **unsupervised learning**
+yang digunakan untuk mengelompokkan data berdasarkan tingkat kemiripan
+karakteristik. Algoritma bekerja dengan menentukan titik pusat cluster
+(**centroid**), kemudian setiap data ditempatkan pada cluster dengan
+jarak paling dekat terhadap centroid tersebut.
+
+Pada analisis ini digunakan sebanyak **{k} cluster**, sehingga data cacat
+produk dikelompokkan menjadi **{k} kelompok**.
+Dengan jumlah cluster tersebut proses pengelompokan menjadi **{tingkat}**
 """)
+
+st.divider()
+
+# ===========================
+# WAWASAN BISNIS
+# ===========================
+
+st.subheader(" Wawasan Bisnis")
+
+st.write(f"""
+Hasil clustering menggunakan **{k} cluster** memberikan informasi yang
+dapat dimanfaatkan perusahaan dalam meningkatkan kualitas produk.
+Beberapa manfaat yang diperoleh yaitu:
+""")
+
+for item in bisnis:
+    st.write(f"• {item}")
