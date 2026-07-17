@@ -7,9 +7,7 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 
-# ==========================
 # KONFIGURASI HALAMAN
-# ==========================
 st.set_page_config(
     page_title="Analisis Clustering Cacat Produk",
     page_icon="📊",
@@ -20,22 +18,19 @@ st.title(" Analisis Clustering Cacat Produk Industri Manufaktur")
 st.info("""
 ### IDENTITAS MAHASISWA
 
-- **Nama** : Achmad Ferdi Santosa
-- **NIM** : E12.2024.01950
-- **Mata Kuliah** : Project Kecerdasan Buatan
+- *Nama* : Achmad Ferdi Santosa
+- *NIM* : E12.2024.01950
+- *Mata Kuliah* : Project Kecerdasan Buatan
 """)
 
 st.markdown("""
 Aplikasi ini digunakan untuk melakukan analisis clustering terhadap data
-cacat produk industri manufaktur menggunakan metode **K-Means Clustering**.
+cacat produk industri manufaktur menggunakan metode *K-Means Clustering*.
 """)
 
 st.divider()
 
-# ==========================
 # MEMBACA DATA
-# ==========================
-
 try:
     df = pd.read_csv("defects_data.csv")
 
@@ -103,7 +98,7 @@ ax.set_title("Metode Elbow")
 
 st.pyplot(fig)
 st.info("""
- **Interpretasi Elbow Method**
+ *Interpretasi Elbow Method*
 
 Metode Elbow digunakan untuk menentukan jumlah cluster yang optimal. Titik siku (elbow) pada grafik menunjukkan jumlah cluster yang memberikan keseimbangan antara kualitas pengelompokan dan kompleksitas model. Nilai tersebut dapat dijadikan acuan dalam memilih jumlah cluster sebelum dilakukan proses K-Means Clustering.
 """)
@@ -159,27 +154,21 @@ st.header("📝 Interpretasi Hasil")
 
 jumlah_cluster = hasil["Cluster"].value_counts().sort_index()
 
-# ===========================
 # RINGKASAN HASIL CLUSTERING
-# ===========================
-
 st.write(f"""
-Berdasarkan hasil **K-Means Clustering** dengan jumlah cluster sebanyak **{k}**,
-data cacat produk berhasil dikelompokkan menjadi **{k} kelompok** berdasarkan
+Berdasarkan hasil *K-Means Clustering* dengan jumlah cluster sebanyak *{k}*,
+data cacat produk berhasil dikelompokkan menjadi *{k} kelompok* berdasarkan
 kemiripan karakteristik.
 """)
 
 st.write("### Jumlah Data pada Setiap Cluster")
 
 for cluster_id, jumlah in jumlah_cluster.items():
-    st.write(f"✅ **Cluster {cluster_id + 1} : {jumlah} data**")
+    st.write(f"✅ *Cluster {cluster_id + 1} : {jumlah} data*")
 
 st.divider()
 
-# ===========================
 # MENENTUKAN PENJELASAN SESUAI JUMLAH CLUSTER
-# ===========================
-
 if k <= 3:
 
     tingkat = "lebih sederhana sehingga cocok untuk melihat gambaran umum pola cacat produk."
@@ -197,7 +186,7 @@ lebih mudah memahami pola cacat utama sebelum melakukan analisis yang lebih rinc
         "Membantu penyusunan strategi peningkatan kualitas secara umum."
     ]
 
-elif k <= 6:r
+elif k <= 6:
 
     tingkat = "lebih rinci sehingga setiap cluster mulai menunjukkan karakteristik cacat yang lebih spesifik."
 
@@ -231,34 +220,28 @@ dengan kebutuhan perusahaan.
         "Mendukung pengambilan keputusan yang lebih akurat."
     ]
 
-# ===========================
 # PENJELASAN MODEL
-# ===========================
-
 st.subheader(" Penjelasan Model")
 
 st.write(f"""
-Metode **K-Means Clustering** merupakan algoritma **unsupervised learning**
+Metode *K-Means Clustering* merupakan algoritma *unsupervised learning*
 yang digunakan untuk mengelompokkan data berdasarkan tingkat kemiripan
 karakteristik. Algoritma bekerja dengan menentukan titik pusat cluster
-(**centroid**), kemudian setiap data ditempatkan pada cluster dengan
+(*centroid*), kemudian setiap data ditempatkan pada cluster dengan
 jarak paling dekat terhadap centroid tersebut.
 
-Pada analisis ini digunakan sebanyak **{k} cluster**, sehingga data cacat
-produk dikelompokkan menjadi **{k} kelompok**.
-Dengan jumlah cluster tersebut proses pengelompokan menjadi **{tingkat}**
+Pada analisis ini digunakan sebanyak *{k} cluster*, sehingga data cacat
+produk dikelompokkan menjadi *{k} kelompok*.
+Dengan jumlah cluster tersebut proses pengelompokan menjadi *{tingkat}*
 """)
 
 st.divider()
 
-# ===========================
 # WAWASAN BISNIS
-# ===========================
-
 st.subheader(" Wawasan Bisnis")
 
 st.write(f"""
-Hasil clustering menggunakan **{k} cluster** memberikan informasi yang
+Hasil clustering menggunakan *{k} cluster* memberikan informasi yang
 dapat dimanfaatkan perusahaan dalam meningkatkan kualitas produk.
 Beberapa manfaat yang diperoleh yaitu:
 """)
