@@ -7,7 +7,9 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 
+# ==========================
 # KONFIGURASI HALAMAN
+# ==========================
 st.set_page_config(
     page_title="Analisis Clustering Cacat Produk",
     page_icon="📊",
@@ -30,7 +32,10 @@ cacat produk industri manufaktur menggunakan metode **K-Means Clustering**.
 
 st.divider()
 
+# ==========================
 # MEMBACA DATA
+# ==========================
+
 try:
     df = pd.read_csv("defects_data.csv")
 
@@ -154,7 +159,10 @@ st.header("📝 Interpretasi Hasil")
 
 jumlah_cluster = hasil["Cluster"].value_counts().sort_index()
 
+# ===========================
 # RINGKASAN HASIL CLUSTERING
+# ===========================
+
 st.write(f"""
 Berdasarkan hasil **K-Means Clustering** dengan jumlah cluster sebanyak **{k}**,
 data cacat produk berhasil dikelompokkan menjadi **{k} kelompok** berdasarkan
@@ -168,7 +176,10 @@ for cluster_id, jumlah in jumlah_cluster.items():
 
 st.divider()
 
+# ===========================
 # MENENTUKAN PENJELASAN SESUAI JUMLAH CLUSTER
+# ===========================
+
 if k <= 3:
 
     tingkat = "lebih sederhana sehingga cocok untuk melihat gambaran umum pola cacat produk."
@@ -186,7 +197,7 @@ lebih mudah memahami pola cacat utama sebelum melakukan analisis yang lebih rinc
         "Membantu penyusunan strategi peningkatan kualitas secara umum."
     ]
 
-elif k <= 6:
+elif k <= 6:r
 
     tingkat = "lebih rinci sehingga setiap cluster mulai menunjukkan karakteristik cacat yang lebih spesifik."
 
@@ -220,7 +231,10 @@ dengan kebutuhan perusahaan.
         "Mendukung pengambilan keputusan yang lebih akurat."
     ]
 
+# ===========================
 # PENJELASAN MODEL
+# ===========================
+
 st.subheader(" Penjelasan Model")
 
 st.write(f"""
@@ -237,7 +251,10 @@ Dengan jumlah cluster tersebut proses pengelompokan menjadi **{tingkat}**
 
 st.divider()
 
+# ===========================
 # WAWASAN BISNIS
+# ===========================
+
 st.subheader(" Wawasan Bisnis")
 
 st.write(f"""
