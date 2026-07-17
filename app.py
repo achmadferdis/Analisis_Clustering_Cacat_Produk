@@ -66,7 +66,10 @@ for kolom in df_pre.select_dtypes(include="object").columns:
 
 st.write("Data setelah preprocessing")
 
-st.dataframe(df_pre.head())
+st.write(f"Jumlah data setelah preprocessing : {df_pre.shape[0]}")
+st.write(f"Jumlah kolom : {df_pre.shape[1]}")
+
+st.dataframe(df_pre)
 
 st.divider()
 
